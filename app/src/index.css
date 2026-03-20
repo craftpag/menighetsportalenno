@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Menighetsportalen fargepalett */
+    --background: 40 20% 98%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 156 35% 27%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 25 45% 55%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 40 15% 95%;
+    --muted-foreground: 0 0% 39%;
+    --accent: 25 45% 55%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 40 10% 90%;
+    --input: 40 10% 90%;
+    --ring: 156 35% 27%;
+    --radius: 0.75rem;
+    
+    /* Egendefinerte farger */
+    --color-primary: #2D5A4A;
+    --color-primary-light: #3D7A64;
+    --color-primary-dark: #1F3D32;
+    --color-secondary: #C17F59;
+    --color-secondary-light: #D49A7A;
+    --color-secondary-dark: #9A6543;
+    --color-background: #FAF9F7;
+    --color-surface: #FFFFFF;
+    --color-text-primary: #1A1A1A;
+    --color-text-secondary: #4A4A4A;
+    --color-text-muted: #636363;
+    --color-border: #E5E2DD;
+    --color-border-light: #F0EDE8;
+    
+    /* Animasjoner */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --duration-fast: 150ms;
+    --duration-normal: 300ms;
+    --duration-slow: 500ms;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-[#FAF9F7] text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-[#2D5A4A] text-white font-medium rounded-xl transition-all duration-200;
+  }
+  
+  .btn-primary:hover {
+    @apply bg-[#3D7A64] scale-[1.02] shadow-lg;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-white text-[#2D5A4A] font-medium rounded-xl border-2 border-[#2D5A4A] transition-all duration-200;
+  }
+  
+  .btn-secondary:hover {
+    @apply bg-[#2D5A4A]/5 scale-[1.02];
+  }
+  
+  .card {
+    @apply bg-white rounded-2xl border border-[#E5E2DD] shadow-sm transition-all duration-200;
+  }
+  
+  .card:hover {
+    @apply -translate-y-1 shadow-md border-[#2D5A4A]/20;
+  }
+  
+  .section-padding {
+    @apply py-16 md:py-20 lg:py-24;
+  }
+  
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Focus indicators for accessibility */
+:focus-visible {
+  outline: 2px solid #2D5A4A;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #2D5A4A;
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+}
