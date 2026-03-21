@@ -28,7 +28,7 @@ export function Footer() {
           {/* Logo & Description */}
           <div className="lg:col-span-2">
             <Link to="/" className="inline-block mb-4">
-              <img src="/images/MenighetsportalenLogoWhite.svg" alt="Menighetsportalen" className="h-10" />
+              <img src="/images/Menighetsportalen Logo Hvitt.png" alt="Menighetsportalen" className="h-14" />
             </Link>
             <p className="text-sm leading-relaxed mb-6 max-w-sm">
               Komplett nettsideløsning for norske menigheter. Bygget med hjerte for 

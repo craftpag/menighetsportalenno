@@ -45,7 +45,7 @@ export function Header() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="group">
-            <img src="/images/MenighetsportalenLogo.svg" alt="Menighetsportalen" className="h-10 transition-transform group-hover:scale-105" />
+            <img src="/images/Menighetsportalen Logo.png" alt="Menighetsportalen" className="h-14 transition-transform group-hover:scale-105" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -75,7 +75,7 @@ export function Header() {
 
           {/* CTA Button */}
           <div className="hidden lg:block">
-            <Button asChild className="btn-primary">
+            <Button asChild className="btn-primary rounded-full">
               <Link to="/prov-gratis">Prøv gratis</Link>
             </Button>
           </div>
@@ -92,7 +92,7 @@ export function Header() {
               <div className="flex flex-col h-full px-6 pt-6 pb-8">
                 <div className="mb-8 pr-8">
                   <Link to="/" onClick={() => setIsOpen(false)}>
-                    <img src="/images/MenighetsportalenLogo.svg" alt="Menighetsportalen" className="h-8" />
+                    <img src="/images/Menighetsportalen Logo.png" alt="Menighetsportalen" className="h-14" />
                   </Link>
                 </div>
 

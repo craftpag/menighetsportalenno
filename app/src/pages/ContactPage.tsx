@@ -127,7 +127,7 @@ export function ContactPage() {
                 <p className="text-sm text-[#636363] mb-4">
                   Start gratis i 2 måneder. Ingen forpliktelser.
                 </p>
-                <Button asChild className="btn-primary w-full">
+                <Button asChild className="btn-primary rounded-full w-full">
                   <Link to="/prov-gratis">Prøv gratis</Link>
                 </Button>
               </div>

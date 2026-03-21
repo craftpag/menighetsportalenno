@@ -74,7 +74,7 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-[#2D5A4A] text-white font-medium rounded-xl transition-all duration-200;
+    @apply inline-flex items-center justify-center px-6 py-3 bg-[#2D5A4A] text-white font-medium rounded-full transition-all duration-200;
   }
   
   .btn-primary:hover {
@@ -82,11 +82,11 @@
   }
   
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-white text-[#2D5A4A] font-medium rounded-xl border-2 border-[#2D5A4A] transition-all duration-200;
+    @apply inline-flex items-center justify-center px-6 py-3 bg-white text-[#2D5A4A] font-medium rounded-full border-2 border-[#2D5A4A] transition-all duration-200;
   }
   
   .btn-secondary:hover {
-    @apply bg-[#2D5A4A]/5 scale-[1.02];
+    @apply bg-white scale-[1.02];
   }
   
   .card {

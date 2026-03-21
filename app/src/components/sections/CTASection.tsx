@@ -51,7 +51,7 @@ export function CTASection({
             size="lg"
             className={
               isDark
-                ? 'bg-white text-[#2D5A4A] hover:bg-white/90 text-lg px-10 py-6 rounded-xl font-medium transition-all hover:scale-105'
+                ? 'bg-white text-[#2D5A4A] hover:bg-white/90 text-lg px-10 py-6 rounded-full font-medium transition-all hover:scale-105'
                 : 'btn-primary text-lg px-10 py-6'
             }
           >
