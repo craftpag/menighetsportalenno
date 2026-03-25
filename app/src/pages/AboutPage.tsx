@@ -34,12 +34,10 @@ const team = [
   {
     name: 'Philip André Gauling',
     role: 'Grunnlegger og utvikler',
-    image: '/images/pastor-3.jpg',
   },
   {
     name: 'Tobias Ugland',
     role: 'Designer',
-    image: '/images/pastor-2.jpg',
   },
 ];
 
@@ -189,11 +187,11 @@ export function AboutPage() {
                 transition={{ duration: 0.5, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="text-center"
               >
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-32 h-32 mx-auto mb-4 rounded-full object-cover"
-                />
+                <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-[#2D5A4A]/10 flex items-center justify-center">
+                  <span className="text-3xl font-serif font-semibold text-[#2D5A4A]">
+                    {member.name.split(' ')[0][0]}{member.name.split(' ').slice(-1)[0][0]}
+                  </span>
+                </div>
                 <h3 className="font-medium text-[#1A1A1A]">{member.name}</h3>
                 <p className="text-sm text-[#636363]">{member.role}</p>
               </motion.div>

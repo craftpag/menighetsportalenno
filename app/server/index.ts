@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import {
   trialRequests,
@@ -19,11 +20,56 @@ const app = express();
 const PORT = Number(process.env.PORT) || 3001;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'menighet2026';
 
+// Auth tokens (deklarert tidlig for bruk i upload-rute)
+const tokens = new Set<string>();
+
+// Upload-rute MÅ registreres FØR express.json() for å unngå body-parsing
+app.post('/api/upload', (req, res) => {
+  const token = req.headers.authorization?.replace('Bearer ', '');
+  if (!token || !tokens.has(token)) {
+    res.status(401).json({ error: 'Ikke autorisert' });
+    return;
+  }
+
+  const chunks: Buffer[] = [];
+  req.on('data', (chunk: Buffer) => chunks.push(chunk));
+  req.on('end', () => {
+    const body = Buffer.concat(chunks);
+    const contentType = req.headers['content-type'] || '';
+    const boundary = contentType.split('boundary=')[1];
+    if (!boundary) { res.status(400).json({ error: 'Mangler boundary' }); return; }
+
+    const parts = body.toString('binary').split('--' + boundary);
+    for (const part of parts) {
+      const headerEnd = part.indexOf('\r\n\r\n');
+      if (headerEnd === -1) continue;
+      const headers = part.slice(0, headerEnd);
+      if (!headers.includes('filename=')) continue;
+
+      const filenameMatch = headers.match(/filename="([^"]+)"/);
+      if (!filenameMatch) continue;
+
+      const ext = path.extname(filenameMatch[1]).toLowerCase();
+      if (!['.jpg', '.jpeg', '.png', '.webp', '.svg'].includes(ext)) {
+        res.status(400).json({ error: 'Ugyldig filtype' });
+        return;
+      }
+
+      const fileData = part.slice(headerEnd + 4, part.lastIndexOf('\r\n'));
+      const uploadsDir = path.join(__dirname, '..', 'dist', 'uploads');
+      if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+      const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}${ext}`;
+      fs.writeFileSync(path.join(uploadsDir, filename), fileData, 'binary');
+      res.json({ url: `/uploads/${filename}` });
+      return;
+    }
+    res.status(400).json({ error: 'Ingen fil funnet' });
+  });
+});
+
 app.use(express.json());
 
 // --- Auth ---
-
-const tokens = new Set<string>();
 
 function authMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
   const token = req.headers.authorization?.replace('Bearer ', '');
@@ -101,6 +147,11 @@ app.post('/api/admin/login', (req, res) => {
   res.json({ token });
 });
 
+// --- Upload ---
+
+const uploadsDir = path.join(__dirname, '..', 'dist', 'uploads');
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+
 // --- Admin: Alt under /api/admin krever auth ---
 
 app.use('/api/admin', authMiddleware);
@@ -165,13 +216,35 @@ app.get('/api/admin/customers', (_req, res) => {
   res.json(customers.getAll());
 });
 
-app.post('/api/admin/customers', (req, res) => {
-  const id = customers.create(req.body);
+async function geocode(location: string): Promise<{ lat: number; lon: number } | null> {
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location + ', Norway')}&format=json&limit=1`,
+      { headers: { 'User-Agent': 'Menighetsportalen/1.0' } }
+    );
+    const data = await res.json() as { lat: string; lon: string }[];
+    if (data.length > 0) return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+  } catch {}
+  return null;
+}
+
+app.post('/api/admin/customers', async (req, res) => {
+  const data = req.body;
+  if (data.location) {
+    const coords = await geocode(data.location);
+    if (coords) { data.lat = coords.lat; data.lon = coords.lon; }
+  }
+  const id = customers.create(data);
   res.json({ ok: true, id });
 });
 
-app.patch('/api/admin/customers/:id', (req, res) => {
-  customers.update(req.params.id, req.body);
+app.patch('/api/admin/customers/:id', async (req, res) => {
+  const data = req.body;
+  if (data.location) {
+    const coords = await geocode(data.location);
+    if (coords) { data.lat = coords.lat; data.lon = coords.lon; }
+  }
+  customers.update(req.params.id, data);
   res.json({ ok: true });
 });
 
@@ -286,7 +359,7 @@ app.get('/api/status/incidents', (_req, res) => {
 if (process.env.NODE_ENV === 'production') {
   const distPath = path.join(__dirname, '..', 'dist');
   app.use(express.static(distPath));
-  app.get('*', (_req, res) => {
+  app.get('/{*path}', (_req, res) => {
     res.sendFile(path.join(distPath, 'index.html'));
   });
 }

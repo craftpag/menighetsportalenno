@@ -18,7 +18,7 @@ export const templates: Template[] = [
     colors: ['#c8a48c', '#f5ddd1', '#8B6914', '#FAF9F7'],
     fonts: 'Playfair Display + Inter',
     features: ['Parallax-scroll', 'GSAP-animasjoner', 'Varme terrakotta-toner', 'Organiske former'],
-    image: '/images/template-hapet.jpg',
+    image: '/images/template-hapetv1.jpg',
   },
   {
     id: 'lyset',
@@ -28,7 +28,7 @@ export const templates: Template[] = [
     colors: ['#2C3E2D', '#B8973A', '#3D5340', '#FAF7F2'],
     fonts: 'Serif-overskrifter + Inter',
     features: ['Magasinlayout', 'Gylne aksenter', 'Sterk typografi', 'Fullskjerm mobilmeny'],
-    image: '/images/template-lyset.jpg',
+    image: '/images/template-lysetv1.jpg',
   },
   {
     id: 'kilden',
@@ -38,6 +38,6 @@ export const templates: Template[] = [
     colors: ['#1a1a1a', '#6b7280', '#9ca3af', '#F8FAFC'],
     fonts: 'Inter (minimalistisk)',
     features: ['Ren minimalisme', 'Høy kontrast', 'Monokromatisk', 'Tidløst design'],
-    image: '/images/template-kilden.jpg',
+    image: '/images/template-kildenv1.jpg',
   },
 ];

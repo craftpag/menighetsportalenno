@@ -51,6 +51,8 @@ export interface Customer {
   since: string;
   website: string;
   visible: number;
+  lat?: number;
+  lon?: number;
 }
 
 export interface TeamMember {

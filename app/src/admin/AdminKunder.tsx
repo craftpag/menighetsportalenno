@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Plus, Pencil, Trash2, Eye, EyeOff } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Plus, Pencil, Trash2, Eye, EyeOff, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -271,13 +271,46 @@ export function AdminKunder() {
             </div>
 
             <div>
-              <Label>Bilde-URL</Label>
-              <Input
-                value={form.image}
-                onChange={(e) => setForm({ ...form, image: e.target.value })}
-                placeholder="/images/hero-church.jpg"
-                className="mt-1"
-              />
+              <Label>Bilde</Label>
+              <div className="mt-1 space-y-2">
+                <div className="flex items-center gap-3">
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    className="hidden"
+                    id="image-upload"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const fd = new FormData();
+                      fd.append('image', file);
+                      const token = sessionStorage.getItem('mp_admin_token');
+                      const res = await fetch('/api/upload', {
+                        method: 'POST',
+                        headers: { Authorization: `Bearer ${token}` },
+                        body: fd,
+                      });
+                      if (res.ok) {
+                        const { url } = await res.json();
+                        setForm({ ...form, image: url });
+                      }
+                    }}
+                  />
+                  <label
+                    htmlFor="image-upload"
+                    className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border border-[#E5E2DD] bg-white hover:bg-gray-50 cursor-pointer transition-colors"
+                  >
+                    <Upload className="w-4 h-4" />
+                    Last opp bilde
+                  </label>
+                  {form.image && (
+                    <img src={form.image} alt="Forhåndsvisning" className="w-10 h-10 rounded object-cover" />
+                  )}
+                </div>
+                {form.image && (
+                  <p className="text-xs text-[#636363] truncate">{form.image}</p>
+                )}
+              </div>
             </div>
 
             <div className="flex justify-end gap-3 pt-2">

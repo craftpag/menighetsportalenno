@@ -11,8 +11,14 @@ const footerLinks = {
   company: [
     { label: 'Om oss', href: '/om-oss' },
     { label: 'Kontakt', href: '/kontakt' },
+  ],
+  legal: [
+    { label: 'Kjøpsvilkår', href: '/vilkar' },
     { label: 'Personvern', href: '/personvern' },
-    { label: 'Vilkår', href: '/vilkar' },
+    { label: 'Informasjonskapsler', href: '/informasjonskapsler' },
+    { label: 'Angrerett og retur', href: '/angrerett' },
+    { label: 'Donasjonsvilkår', href: '/donasjonsvilkar' },
+    { label: 'Bruksvilkår', href: '/bruksvilkar' },
   ],
   resources: [
     { label: 'Hjelpesenter', href: '/hjelp' },
@@ -24,7 +30,7 @@ export function Footer() {
   return (
     <footer className="bg-[#1A1A1A] text-[#A0A0A0]">
       <div className="container-custom py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12">
           {/* Logo & Description */}
           <div className="lg:col-span-2">
             <Link to="/" className="inline-block mb-4">
@@ -93,6 +99,23 @@ export function Footer() {
             <h3 className="text-white font-medium mb-4">Ressurser</h3>
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    to={link.href}
+                    className="text-sm hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal Links */}
+          <div>
+            <h3 className="text-white font-medium mb-4">Juridisk</h3>
+            <ul className="space-y-3">
+              {footerLinks.legal.map((link) => (
                 <li key={link.href}>
                   <Link
                     to={link.href}

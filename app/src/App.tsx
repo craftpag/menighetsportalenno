@@ -12,6 +12,12 @@ import { AboutPage } from '@/pages/AboutPage';
 import { ContactPage } from '@/pages/ContactPage';
 import { HelpPage } from '@/pages/HelpPage';
 import { StatusPage } from '@/pages/StatusPage';
+import { VilkarPage } from '@/pages/legal/VilkarPage';
+import { PersonvernPage } from '@/pages/legal/PersonvernPage';
+import { AngrerettPage } from '@/pages/legal/AngrerettPage';
+import { InformasjonskapserPage } from '@/pages/legal/InformasjonskapserPage';
+import { BruksvilkarPage } from '@/pages/legal/BruksvilkarPage';
+import { DonasjonsvilkarPage } from '@/pages/legal/DonasjonsvilkarPage';
 import { AdminLayout } from '@/admin/AdminLayout';
 import { AdminOversikt } from '@/admin/AdminOversikt';
 import { AdminForesposler } from '@/admin/AdminForesposler';
@@ -35,6 +41,12 @@ function App() {
           <Route path="/om-oss" element={<AboutPage />} />
           <Route path="/kontakt" element={<ContactPage />} />
           <Route path="/hjelp" element={<HelpPage />} />
+          <Route path="/vilkar" element={<VilkarPage />} />
+          <Route path="/personvern" element={<PersonvernPage />} />
+          <Route path="/angrerett" element={<AngrerettPage />} />
+          <Route path="/informasjonskapsler" element={<InformasjonskapserPage />} />
+          <Route path="/bruksvilkar" element={<BruksvilkarPage />} />
+          <Route path="/donasjonsvilkar" element={<DonasjonsvilkarPage />} />
           <Route path="*" element={<HomePage />} />
         </Route>
 

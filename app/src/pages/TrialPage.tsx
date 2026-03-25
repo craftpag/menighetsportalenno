@@ -41,16 +41,16 @@ export function TrialPage() {
 
     try {
       const success = await submitTrial({
-        church_name: formData.get('churchName') as string || '',
-        contact_name: formData.get('contactName') as string || '',
+        churchName: formData.get('churchName') as string || '',
+        contactName: formData.get('contactName') as string || '',
         email: formData.get('email') as string || '',
         phone: formData.get('phone') as string || '',
         location: formData.get('location') as string || '',
         members: formData.get('members') as string || '',
-        has_website: hasWebsite,
-        current_website: formData.get('currentWebsite') as string || '',
+        hasWebsite: hasWebsite,
+        currentWebsite: formData.get('currentWebsite') as string || '',
         template: formData.get('template') as string || '',
-        custom_template: formData.get('custom') as string || '',
+        customTemplate: formData.get('custom') as string || '',
         comment: formData.get('comment') as string || '',
       });
 
@@ -85,9 +85,6 @@ export function TrialPage() {
             </h1>
             <p className="text-lg text-[#4A4A4A] mb-6">
               Vi har mottatt din forespørsel og tar kontakt innen 24 timer for å hjelpe deg i gang.
-            </p>
-            <p className="text-sm text-[#636363]">
-              En bekreftelse er sendt til din e-postadresse.
             </p>
           </motion.div>
         </div>

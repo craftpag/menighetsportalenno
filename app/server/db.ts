@@ -60,7 +60,9 @@ db.exec(`
     image TEXT DEFAULT '',
     since TEXT DEFAULT '',
     website TEXT DEFAULT '',
-    visible INTEGER NOT NULL DEFAULT 1
+    visible INTEGER NOT NULL DEFAULT 1,
+    lat REAL,
+    lon REAL
   );
 
   CREATE TABLE IF NOT EXISTS team_members (
@@ -107,6 +109,10 @@ db.exec(`
     created_at TEXT NOT NULL
   );
 `);
+
+// Migrer eksisterende databaser
+try { db.exec('ALTER TABLE customers ADD COLUMN lat REAL'); } catch {}
+try { db.exec('ALTER TABLE customers ADD COLUMN lon REAL'); } catch {}
 
 // --- Hjelpefunksjoner ---
 
