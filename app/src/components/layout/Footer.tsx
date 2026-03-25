@@ -40,6 +40,9 @@ export function Footer() {
               Komplett nettsideløsning for norske menigheter. Bygget med hjerte for 
               menighetsarbeid og fokus på brukervennlighet.
             </p>
+            <p className="text-sm leading-relaxed mb-6 max-w-sm">
+              Org.nr.: 928 584 542
+            </p>
             <div className="space-y-2 text-sm">
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4" />
@@ -49,13 +52,13 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4" />
-                <a href="tel:+4799999999" className="hover:text-white transition-colors">
-                  +47 999 99 999
+                <a href="tel:+4745101331" className="hover:text-white transition-colors">
+                  +47 451 01 331
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
-                <span>Oslo, Norge</span>
+                <span>Gaulinveien 24, 1747 Skjeberg</span>
               </div>
             </div>
           </div>
@@ -132,11 +135,12 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-[#333] mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm">
-            © 2026 Menighetsportalen. Alle rettigheter reservert.
+            © 2026 Menighetsportalen - Alle rettigheter forbeholdt
           </p>
-          <p className="text-sm flex items-center gap-1">
-            Laget med <span className="text-[#C17F59]">♥</span> for norske menigheter
-          </p>
+          <a href="https://www.designblokk.no/" target="_blank" rel="noopener noreferrer" className="text-sm flex items-center gap-1.5 hover:opacity-80 transition-opacity">
+            Tjenesten er levert av
+            <img src="/images/Designblokk-Hvit-SVG.svg" alt="Designblokk" className="h-4 inline-block" />
+          </a>
         </div>
       </div>
     </footer>

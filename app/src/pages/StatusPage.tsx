@@ -168,12 +168,8 @@ export function StatusPage() {
       {/* Header */}
       <header className="border-b" style={{ borderColor: '#DEDCD1' }}>
         <div className="max-w-3xl mx-auto px-6 py-5 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <Church className="w-6 h-6" style={{ color: '#141413' }} />
-            <span className="text-lg font-semibold" style={{ color: '#141413' }}>
-              Menighetsportalen
-            </span>
-            <span className="text-sm" style={{ color: '#87867F' }}>Status</span>
+          <Link to="/" className="group">
+            <img src="/images/Menighetsportalen Logo.png" alt="Menighetsportalen" className="h-10 transition-transform group-hover:scale-105" />
           </Link>
 
           <div className="flex items-center gap-3">
@@ -408,7 +404,7 @@ export function StatusPage() {
       <footer className="border-t mt-16" style={{ borderColor: '#DEDCD1' }}>
         <div className="max-w-3xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4 text-sm" style={{ color: '#87867F' }}>
-            <Link to="/" className="hover:underline">menighetsportalen.no</Link>
+            <Link to="/" className="hover:underline">Tilbake til menighetsportalen.no</Link>
             <span>·</span>
             <Link to="/kontakt" className="hover:underline">Kontakt</Link>
           </div>

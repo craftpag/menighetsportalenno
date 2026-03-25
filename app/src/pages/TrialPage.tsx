@@ -197,7 +197,7 @@ export function TrialPage() {
                     <Label htmlFor="members">Antall medlemmer</Label>
                     <Select name="members">
                       <SelectTrigger className="mt-1">
-                        <SelectValue placeholder="Velg storrelse" />
+                        <SelectValue placeholder="Velg størrelse" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="under50">Under 50</SelectItem>

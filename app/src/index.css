@@ -19,7 +19,7 @@
     --secondary-foreground: 0 0% 100%;
     --muted: 40 15% 95%;
     --muted-foreground: 0 0% 39%;
-    --accent: 25 45% 55%;
+    --accent: 156 35% 27%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -32,9 +32,9 @@
     --color-primary: #2D5A4A;
     --color-primary-light: #3D7A64;
     --color-primary-dark: #1F3D32;
-    --color-secondary: #C17F59;
+    --color-secondary: #2D5A4A;
     --color-secondary-light: #D49A7A;
-    --color-secondary-dark: #9A6543;
+    --color-secondary-dark: #2D5A4A;
     --color-background: #FAF9F7;
     --color-surface: #FFFFFF;
     --color-text-primary: #1A1A1A;
@@ -78,7 +78,7 @@
   }
   
   .btn-primary:hover {
-    @apply bg-[#3D7A64] scale-[1.02] shadow-lg;
+    @apply bg-[#3D7A64] scale-[1.02];
   }
   
   .btn-secondary {
