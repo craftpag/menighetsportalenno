@@ -32,7 +32,7 @@ const values = [
 
 const team = [
   {
-    name: 'Philip André Gauling',
+    name: 'Philip André Gaulin',
     role: 'Grunnlegger og utvikler',
   },
   {

@@ -101,8 +101,8 @@ export function HomePage() {
               Alt du trenger, ingenting du ikke trenger
             </h2>
             <p className="text-lg text-[#4A4A4A]">
-              Menighetsportalen samler alt på ett sted — fra nettside og gaver til 
-              medlemsregister og nyhetsbrev.
+              Menighetsportalen samler alt på ett sted — fra nettside og gaver til
+              gudstjenesteplanlegger, innsjekking, arbeidsflyter og AI.
             </p>
           </motion.div>
 

@@ -12,7 +12,7 @@ export function ComparisonTable() {
         <span role="img" aria-label="Nei"><X className="w-5 h-5 text-[#636363] mx-auto" aria-hidden="true" /></span>
       );
     }
-    if (value === 'Delvis' || value === 'Varierer' || value === 'Mulig' || value === 'Vanskelig' || value === 'Sjelden' || value === 'Enkel') {
+    if (['Delvis', 'Varierer', 'Mulig', 'Vanskelig', 'Sjelden', 'Enkel', 'Tillegg', 'App', 'E-handel', 'Plugin'].includes(value)) {
       return <span className="text-[#636363] text-sm">{value}</span>;
     }
     return <span className="text-sm">{value}</span>;
@@ -54,13 +54,17 @@ export function ComparisonTable() {
               )}
             >
               <td className="py-4 px-4 font-medium text-[#1A1A1A]">{row.feature}</td>
-              <td className="py-4 px-4 text-center bg-[#2D5A4A]/5">
-                {renderValue(row.menighetsportalen)}
-              </td>
-              <td className="py-4 px-4 text-center">{renderValue(row.wordpress)}</td>
-              <td className="py-4 px-4 text-center">{renderValue(row.agency)}</td>
-              <td className="py-4 px-4 text-center">{renderValue(row.squarespace)}</td>
-              <td className="py-4 px-4 text-center">{renderValue(row.tithely)}</td>
+              {competitors.map((comp) => (
+                <td
+                  key={comp.key}
+                  className={cn(
+                    'py-4 px-4 text-center',
+                    comp.highlight && 'bg-[#2D5A4A]/5'
+                  )}
+                >
+                  {renderValue(row[comp.key as keyof typeof row] as string | boolean)}
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>

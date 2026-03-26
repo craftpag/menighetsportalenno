@@ -193,7 +193,7 @@ function TeamTab() {
               <Input
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                placeholder="Philip Andre Gauling"
+                placeholder="Philip Andre Gaulin"
                 className="mt-1"
               />
             </div>
