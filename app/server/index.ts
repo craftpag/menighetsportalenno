@@ -16,6 +16,7 @@ import {
 import { startHealthChecker, getServiceList } from './healthChecker.js';
 import { validateSlug } from './slug.js';
 import { sendVerificationEmail } from './email.js';
+import { verifyTurnstile } from './turnstile.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -86,9 +87,14 @@ function authMiddleware(req: express.Request, res: express.Response, next: expre
 // --- Public: Skjema-innsendinger ---
 
 app.post('/api/submit/trial', async (req, res) => {
-  const { churchName, contactName, email, phone, slug, location, members, hasWebsite, currentWebsite, template, customTemplate, comment } = req.body;
+  const { churchName, contactName, email, phone, slug, location, members, hasWebsite, currentWebsite, template, customTemplate, comment, turnstileToken } = req.body;
   if (!churchName || !contactName || !email || !phone) {
     res.status(400).json({ error: 'Mangler påkrevde felt' });
+    return;
+  }
+  const turnstile = await verifyTurnstile(turnstileToken, req.ip);
+  if (!turnstile.success) {
+    res.status(400).json({ error: 'Bot-verifisering mislyktes', reason: turnstile.reason });
     return;
   }
   if (slug) {

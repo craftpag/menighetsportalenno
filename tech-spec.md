@@ -11,6 +11,17 @@ Menighetsportalen.no er **sentralt registrerings- og innloggingspunkt** for hele
 
 Mål-arkitektur: én pooled Hetzner-app serverer alle menigheter. Se [`../Designblokk_menighet/docs/arkitektur.md`](../Designblokk_menighet/docs/arkitektur.md) og [`../Designblokk_menighet/todo.md`](../Designblokk_menighet/todo.md) Fase B (registreringsflyt).
 
+### Env-variabler for registreringsflyten
+
+| Variabel | Hvor | Default (dev) | Påkrevd i prod |
+|---|---|---|---|
+| `RESEND_API_KEY` | Server | (mangler → logg til konsoll) | Ja |
+| `EMAIL_FROM` | Server | `Menighetsportalen <noreply@menighetsportalen.no>` | Anbefalt |
+| `PUBLIC_BASE_URL` | Server | `http://localhost:5173` | Ja (`https://menighetsportalen.no`) |
+| `TURNSTILE_SECRET_KEY` | Server | (mangler → hopper over verifisering) | Ja |
+| `VITE_TURNSTILE_SITE_KEY` | Frontend (build) | `1x00000000000000000000AA` (test, alltid ok) | Ja |
+| `ADMIN_PASSWORD` | Server | `menighet2026` | Ja |
+
 ## Arkitektur
 
 ### Teknologistack

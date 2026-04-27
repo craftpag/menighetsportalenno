@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/select';
 import { templates } from '@/data/templates';
 import { submitTrial } from '@/admin/adminStore';
+import { Turnstile } from '@/components/Turnstile';
 import { useDocumentTitle } from '@/hooks/use-document-title';
 import {
   generateSlug,
@@ -62,6 +63,7 @@ export function RegistrerPage() {
   const [searchParams] = useSearchParams();
   const [step, setStep] = useState<Step>(1);
   const [data, setData] = useState<FormData>(initialData);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitState, setSubmitState] = useState<'idle' | 'success'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
@@ -92,7 +94,8 @@ export function RegistrerPage() {
     data.contactName.trim().length >= 2 &&
     /\S+@\S+\.\S+/.test(data.email) &&
     data.phone.trim().length >= 6 &&
-    data.consent;
+    data.consent &&
+    !!turnstileToken;
 
   const goNext = () => {
     if (step === 1 && canProceedStep1) setStep(2);
@@ -123,6 +126,7 @@ export function RegistrerPage() {
         template: data.template,
         customTemplate: '',
         comment: '',
+        turnstileToken: turnstileToken || '',
       });
       if (result.ok) {
         setSubmitState('success');
@@ -207,6 +211,9 @@ export function RegistrerPage() {
                       data={data}
                       onChange={(patch) => setData({ ...data, ...patch })}
                     />
+                    <div className="mt-6">
+                      <Turnstile onToken={setTurnstileToken} />
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
