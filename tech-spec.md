@@ -1,5 +1,16 @@
 # Menighetsportalen.no - Teknisk spesifikasjon
 
+## Rolle i pooled multi-tenant-arkitekturen
+
+Menighetsportalen.no er **sentralt registrerings- og innloggingspunkt** for hele Designblokk-plattformen. Marketing-sidene fortsetter å være kjernen, men siden får utvidet rolle:
+
+- **`/registrer`** — selvbetjent skjema (kirkenavn → ønsket subdomene → mal + Turnstile). BFF-proxy kaller `Designblokk_admin` `POST /api/v1/registrer`, som provisjonerer Tenant + Cloudflare-DNS automatisk
+- **`/registrer/verifiser`** — e-post-bekreftelse (GDPR/spam-vern), poller status, redirecter til `<navn>.menighetsportalen.no/oppsett` med one-time login token (OTL)
+- **`/oppsett`** (planlagt — gjeste-wizard) — samler ekstra info før menighet-instansen er klar, brukes som handoff
+- **`menighetsportalen.no/kontroll/<slug>/`** — sentralisert admin-tilgang (alternativ til `<slug>.menighetsportalen.no/kontroll/`). Tenant-resolveren i menighet-app støtter begge mønstre
+
+Mål-arkitektur: én pooled Hetzner-app serverer alle menigheter. Se [`../Designblokk_menighet/docs/arkitektur.md`](../Designblokk_menighet/docs/arkitektur.md) og [`../Designblokk_menighet/todo.md`](../Designblokk_menighet/todo.md) Fase B (registreringsflyt).
+
 ## Arkitektur
 
 ### Teknologistack
