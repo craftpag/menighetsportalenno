@@ -14,11 +14,14 @@ import {
   incidentStore,
 } from './db.js';
 import { startHealthChecker, getServiceList } from './healthChecker.js';
+import { validateSlug } from './slug.js';
+import { sendVerificationEmail } from './email.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = Number(process.env.PORT) || 3001;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'menighet2026';
+const PUBLIC_BASE_URL = process.env.PUBLIC_BASE_URL || 'http://localhost:5173';
 
 // Auth tokens (deklarert tidlig for bruk i upload-rute)
 const tokens = new Set<string>();
@@ -82,20 +85,76 @@ function authMiddleware(req: express.Request, res: express.Response, next: expre
 
 // --- Public: Skjema-innsendinger ---
 
-app.post('/api/submit/trial', (req, res) => {
-  const { churchName, contactName, email, phone, location, members, hasWebsite, currentWebsite, template, customTemplate, comment } = req.body;
+app.post('/api/submit/trial', async (req, res) => {
+  const { churchName, contactName, email, phone, slug, location, members, hasWebsite, currentWebsite, template, customTemplate, comment } = req.body;
   if (!churchName || !contactName || !email || !phone) {
     res.status(400).json({ error: 'Mangler påkrevde felt' });
     return;
   }
+  if (slug) {
+    const slugError = validateSlug(slug);
+    if (slugError) {
+      res.status(400).json({ error: 'Ugyldig subdomene', reason: slugError });
+      return;
+    }
+    if (trialRequests.findBySlug(slug)) {
+      res.status(409).json({ error: 'Subdomenet er allerede reservert', reason: 'taken' });
+      return;
+    }
+  }
+  const verificationToken = crypto.randomUUID();
   const id = trialRequests.create({
     churchName, contactName, email, phone,
     location: location || '', members: members || '',
     hasWebsite: hasWebsite || '', currentWebsite: currentWebsite || '',
     template: template || '', customTemplate: customTemplate || '',
-    comment: comment || '', submittedAt: new Date().toISOString(),
+    comment: comment || '', slug: slug || '', verificationToken,
+    submittedAt: new Date().toISOString(),
   });
+
+  if (slug) {
+    const verifyUrl = `${PUBLIC_BASE_URL}/registrer/verifiser?token=${verificationToken}`;
+    sendVerificationEmail({ to: email, contactName, churchName, slug, verifyUrl }).catch((err) => {
+      console.error(`Verifiseringsepost feilet for ${id}:`, err);
+    });
+  }
+
   res.json({ ok: true, id });
+});
+
+app.post('/api/registrer/slug-check', (req, res) => {
+  const { slug } = req.body;
+  if (typeof slug !== 'string') {
+    res.status(400).json({ available: false, reason: 'invalid' });
+    return;
+  }
+  const error = validateSlug(slug);
+  if (error) {
+    res.json({ available: false, reason: error });
+    return;
+  }
+  if (trialRequests.findBySlug(slug)) {
+    res.json({ available: false, reason: 'taken' });
+    return;
+  }
+  res.json({ available: true });
+});
+
+app.get('/api/registrer/verify/:token', (req, res) => {
+  const row = trialRequests.findByToken(req.params.token);
+  if (!row) {
+    res.status(404).json({ ok: false, reason: 'not-found' });
+    return;
+  }
+  if (!row.verified_at) {
+    trialRequests.markVerified(row.id);
+  }
+  res.json({
+    ok: true,
+    churchName: row.church_name,
+    slug: row.slug,
+    alreadyVerified: !!row.verified_at,
+  });
 });
 
 app.post('/api/submit/contact', (req, res) => {

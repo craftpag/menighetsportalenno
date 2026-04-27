@@ -217,13 +217,21 @@ export async function getPublicTeam(): Promise<TeamMember[]> {
 
 // --- Public: Skjema-innsendinger ---
 
-export async function submitTrial(data: Record<string, string>): Promise<boolean> {
+export interface TrialSubmitResult {
+  ok: boolean;
+  error?: string;
+  reason?: string;
+}
+
+export async function submitTrial(data: Record<string, string>): Promise<TrialSubmitResult> {
   const res = await fetch('/api/submit/trial', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
-  return res.ok;
+  if (res.ok) return { ok: true };
+  const body = (await res.json().catch(() => ({}))) as { error?: string; reason?: string };
+  return { ok: false, error: body.error, reason: body.reason };
 }
 
 export async function submitContact(data: Record<string, string>): Promise<boolean> {

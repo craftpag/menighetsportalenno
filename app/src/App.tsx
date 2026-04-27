@@ -8,6 +8,7 @@ import { PricingPage } from '@/pages/PricingPage';
 import { CustomersPage } from '@/pages/CustomersPage';
 import { RoadmapPage } from '@/pages/RoadmapPage';
 import { RegistrerPage } from '@/pages/RegistrerPage';
+import { VerifiserPage } from '@/pages/VerifiserPage';
 import { AboutPage } from '@/pages/AboutPage';
 import { ContactPage } from '@/pages/ContactPage';
 import { HelpPage } from '@/pages/HelpPage';
@@ -38,6 +39,7 @@ function App() {
           <Route path="/kunder" element={<CustomersPage />} />
           <Route path="/veikart" element={<RoadmapPage />} />
           <Route path="/registrer" element={<RegistrerPage />} />
+          <Route path="/registrer/verifiser" element={<VerifiserPage />} />
           <Route path="/prov-gratis" element={<Navigate to="/registrer" replace />} />
           <Route path="/om-oss" element={<AboutPage />} />
           <Route path="/kontakt" element={<ContactPage />} />

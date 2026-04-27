@@ -27,6 +27,9 @@ db.exec(`
     template TEXT DEFAULT '',
     custom_template TEXT DEFAULT '',
     comment TEXT DEFAULT '',
+    slug TEXT DEFAULT '',
+    verification_token TEXT,
+    verified_at TEXT,
     submitted_at TEXT NOT NULL,
     status TEXT NOT NULL DEFAULT 'ny'
   );
@@ -111,8 +114,14 @@ db.exec(`
 `);
 
 // Migrer eksisterende databaser
-try { db.exec('ALTER TABLE customers ADD COLUMN lat REAL'); } catch {}
-try { db.exec('ALTER TABLE customers ADD COLUMN lon REAL'); } catch {}
+const migrate = (sql: string) => { try { db.exec(sql); } catch {} };
+migrate('ALTER TABLE customers ADD COLUMN lat REAL');
+migrate('ALTER TABLE customers ADD COLUMN lon REAL');
+migrate("ALTER TABLE trial_requests ADD COLUMN slug TEXT DEFAULT ''");
+migrate('ALTER TABLE trial_requests ADD COLUMN verification_token TEXT');
+migrate('ALTER TABLE trial_requests ADD COLUMN verified_at TEXT');
+migrate('CREATE INDEX IF NOT EXISTS idx_trial_token ON trial_requests(verification_token)');
+migrate('CREATE INDEX IF NOT EXISTS idx_trial_slug ON trial_requests(slug)');
 
 // --- Hjelpefunksjoner ---
 
@@ -125,12 +134,28 @@ export function genId(): string {
 export const trialRequests = {
   getAll: () => db.prepare('SELECT * FROM trial_requests ORDER BY submitted_at DESC').all(),
   getById: (id: string) => db.prepare('SELECT * FROM trial_requests WHERE id = ?').get(id),
+  findBySlug: (slug: string) =>
+    db.prepare('SELECT id, slug, church_name FROM trial_requests WHERE slug = ?').get(slug) as
+      | { id: string; slug: string; church_name: string }
+      | undefined,
+  findByToken: (token: string) =>
+    db
+      .prepare('SELECT id, church_name, slug, email, verified_at FROM trial_requests WHERE verification_token = ?')
+      .get(token) as
+      | { id: string; church_name: string; slug: string; email: string; verified_at: string | null }
+      | undefined,
+  markVerified: (id: string) => {
+    db.prepare('UPDATE trial_requests SET verified_at = ? WHERE id = ? AND verified_at IS NULL').run(
+      new Date().toISOString(),
+      id,
+    );
+  },
   create: (data: Record<string, unknown>) => {
     const id = genId();
     db.prepare(`
-      INSERT INTO trial_requests (id, church_name, contact_name, email, phone, location, members, has_website, current_website, template, custom_template, comment, submitted_at, status)
-      VALUES (@id, @churchName, @contactName, @email, @phone, @location, @members, @hasWebsite, @currentWebsite, @template, @customTemplate, @comment, @submittedAt, 'ny')
-    `).run({ id, ...data });
+      INSERT INTO trial_requests (id, church_name, contact_name, email, phone, location, members, has_website, current_website, template, custom_template, comment, slug, verification_token, submitted_at, status)
+      VALUES (@id, @churchName, @contactName, @email, @phone, @location, @members, @hasWebsite, @currentWebsite, @template, @customTemplate, @comment, @slug, @verificationToken, @submittedAt, 'ny')
+    `).run({ id, slug: '', verificationToken: null, ...data });
     return id;
   },
   updateStatus: (id: string, status: string) => {

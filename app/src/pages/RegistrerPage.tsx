@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Check, Loader2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Loader2, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -63,7 +63,7 @@ export function RegistrerPage() {
   const [step, setStep] = useState<Step>(1);
   const [data, setData] = useState<FormData>(initialData);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitState, setSubmitState] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitState, setSubmitState] = useState<'idle' | 'success'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
   // Forhåndsvelg mal fra ?mal=
@@ -110,27 +110,29 @@ export function RegistrerPage() {
     setIsSubmitting(true);
     setErrorMessage('');
     try {
-      const slugLine = `Ønsket subdomene: ${data.slug}.menighetsportalen.no`;
-      const ok = await submitTrial({
+      const result = await submitTrial({
         churchName: data.churchName,
         contactName: data.contactName,
         email: data.email,
         phone: data.phone,
+        slug: data.slug,
         location: data.location,
         members: data.members,
         hasWebsite: '',
         currentWebsite: '',
         template: data.template,
         customTemplate: '',
-        comment: slugLine,
+        comment: '',
       });
-      if (ok) setSubmitState('success');
-      else {
-        setSubmitState('error');
-        setErrorMessage('Noe gikk galt. Prøv igjen.');
+      if (result.ok) {
+        setSubmitState('success');
+      } else if (result.reason === 'taken') {
+        setStep(1);
+        setErrorMessage('Subdomenet er allerede tatt. Velg en annen nettadresse.');
+      } else {
+        setErrorMessage(result.error || 'Noe gikk galt. Prøv igjen.');
       }
     } catch {
-      setSubmitState('error');
       setErrorMessage('Kunne ikke sende. Sjekk internettforbindelsen.');
     } finally {
       setIsSubmitting(false);
@@ -576,16 +578,16 @@ function SuccessScreen({ email, slug }: { email: string; slug: string }) {
           role="status"
         >
           <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#2D5A4A]/10 flex items-center justify-center">
-            <Check className="w-10 h-10 text-[#2D5A4A]" aria-hidden="true" />
+            <Mail className="w-10 h-10 text-[#2D5A4A]" aria-hidden="true" />
           </div>
           <h1 className="font-serif text-3xl font-semibold text-[#1A1A1A] mb-4">
-            Takk for registreringen!
+            Sjekk e-posten din
           </h1>
           <p className="text-lg text-[#4A4A4A] mb-2">
-            Vi har mottatt forespørselen din for <code className="px-1.5 py-0.5 bg-white rounded border border-[#E5E2DD] text-sm">{slug}.menighetsportalen.no</code>.
+            Vi har sendt en bekreftelse til <strong>{email}</strong>.
           </p>
           <p className="text-[#636363]">
-            Vi tar kontakt på <strong>{email}</strong> innen 24 timer for å hjelpe deg i gang.
+            Når du bekrefter, gjør vi klar <code className="px-1.5 py-0.5 bg-white rounded border border-[#E5E2DD] text-sm">{slug}.menighetsportalen.no</code> og kontakter deg innen 24 timer.
           </p>
         </motion.div>
       </div>
