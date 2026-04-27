@@ -127,7 +127,7 @@ export function FeaturesPage() {
         title="Klar til å prøve?"
         subtitle="Start gratis i 2 måneder. Ingen forpliktelser."
         buttonText="Prøv gratis nå"
-        buttonHref="/prov-gratis"
+        buttonHref="/registrer"
         variant="dark"
       />
     </div>

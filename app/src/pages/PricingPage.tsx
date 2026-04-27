@@ -61,7 +61,7 @@ export function PricingPage() {
         title="Fremdeles usikker?"
         subtitle="Prøv gratis i 2 måneder. Ingen forpliktelser. Ingen kredittkort nødvendig."
         buttonText="Prøv gratis nå"
-        buttonHref="/prov-gratis"
+        buttonHref="/registrer"
         variant="dark"
       />
     </div>

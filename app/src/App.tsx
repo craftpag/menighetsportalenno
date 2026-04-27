@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
 import { MotionConfig } from 'framer-motion';
 import { Layout } from '@/components/layout/Layout';
 import { HomePage } from '@/pages/HomePage';
@@ -7,7 +7,7 @@ import { FeaturesPage } from '@/pages/FeaturesPage';
 import { PricingPage } from '@/pages/PricingPage';
 import { CustomersPage } from '@/pages/CustomersPage';
 import { RoadmapPage } from '@/pages/RoadmapPage';
-import { TrialPage } from '@/pages/TrialPage';
+import { RegistrerPage } from '@/pages/RegistrerPage';
 import { AboutPage } from '@/pages/AboutPage';
 import { ContactPage } from '@/pages/ContactPage';
 import { HelpPage } from '@/pages/HelpPage';
@@ -37,7 +37,8 @@ function App() {
           <Route path="/priser" element={<PricingPage />} />
           <Route path="/kunder" element={<CustomersPage />} />
           <Route path="/veikart" element={<RoadmapPage />} />
-          <Route path="/prov-gratis" element={<TrialPage />} />
+          <Route path="/registrer" element={<RegistrerPage />} />
+          <Route path="/prov-gratis" element={<Navigate to="/registrer" replace />} />
           <Route path="/om-oss" element={<AboutPage />} />
           <Route path="/kontakt" element={<ContactPage />} />
           <Route path="/hjelp" element={<HelpPage />} />

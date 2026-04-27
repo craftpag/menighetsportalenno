@@ -128,7 +128,7 @@ export function ContactPage() {
                   Start gratis i 2 måneder. Ingen forpliktelser.
                 </p>
                 <Button asChild className="btn-primary rounded-full w-full">
-                  <Link to="/prov-gratis">Prøv gratis</Link>
+                  <Link to="/registrer">Prøv gratis</Link>
                 </Button>
               </div>
             </motion.div>

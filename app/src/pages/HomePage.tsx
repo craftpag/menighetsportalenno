@@ -35,7 +35,7 @@ export function HomePage() {
       <HeroSection
         title="Din menighet fortjener en nettside som fungerer"
         subtitle="Menighetsportalen gir deg en komplett, moderne nettside — klar på under en time. Ingen koding. Ingen vedlikeholdshodepine. Alt på norsk."
-        primaryCta={{ label: 'Prøv gratis i 2 måneder', href: '/prov-gratis' }}
+        primaryCta={{ label: 'Prøv gratis i 2 måneder', href: '/registrer' }}
         secondaryCta={{ label: 'Se malene', href: '/maler' }}
       />
 
@@ -190,7 +190,7 @@ export function HomePage() {
         title="Klar til å gi menigheten en moderne nettside?"
         subtitle="Prøv gratis i 2 måneder. Ingen forpliktelser."
         buttonText="Prøv gratis"
-        buttonHref="/prov-gratis"
+        buttonHref="/registrer"
         variant="dark"
       />
     </div>

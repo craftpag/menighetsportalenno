@@ -126,7 +126,7 @@ export function TemplatesPage() {
                   </div>
 
                   <Button asChild className="btn-primary">
-                    <Link to={`/prov-gratis?mal=${template.id}`}>
+                    <Link to={`/registrer?mal=${template.id}`}>
                       Prøv denne malen gratis
                       <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />
                     </Link>
@@ -234,7 +234,7 @@ export function TemplatesPage() {
         title="Klar til å prøve?"
         subtitle="Start gratis i 2 måneder. Ingen forpliktelser."
         buttonText="Prøv gratis nå"
-        buttonHref="/prov-gratis"
+        buttonHref="/registrer"
         variant="dark"
       />
     </div>

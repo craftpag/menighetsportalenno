@@ -93,7 +93,7 @@ export function PricingCard({ variant = 'simple' }: PricingCardProps) {
 
         <div className="text-center">
           <Button asChild size="lg" className="btn-primary rounded-full text-lg px-12 py-6">
-            <Link to="/prov-gratis">
+            <Link to="/registrer">
               Prøv gratis i 2 måneder
               <ArrowRight className="ml-2 w-5 h-5" aria-hidden="true" />
             </Link>

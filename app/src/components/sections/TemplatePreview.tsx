@@ -103,7 +103,7 @@ export function TemplatePreview({ showAll = false }: TemplatePreviewProps) {
               </div>
 
               <Button asChild variant="outline" className="w-full btn-secondary">
-                <Link to={`/prov-gratis?mal=${template.id}`}>
+                <Link to={`/registrer?mal=${template.id}`}>
                   Prøv denne malen
                   <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />
                 </Link>

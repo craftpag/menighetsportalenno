@@ -226,7 +226,7 @@ export function RoadmapPage() {
         title="Klar til å bli med på reisen?"
         subtitle="Prøv Menighetsportalen gratis i 2 måneder. Ingen forpliktelser."
         buttonText="Prøv gratis nå"
-        buttonHref="/prov-gratis"
+        buttonHref="/registrer"
         variant="dark"
       />
     </div>

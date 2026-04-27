@@ -76,7 +76,7 @@ export function Header() {
           {/* CTA Button */}
           <div className="hidden lg:block">
             <Button asChild className="btn-primary rounded-full">
-              <Link to="/prov-gratis">Prøv gratis</Link>
+              <Link to="/registrer">Prøv gratis</Link>
             </Button>
           </div>
 
@@ -116,7 +116,7 @@ export function Header() {
 
                 <div className="mt-auto pt-6">
                   <Button asChild className="w-full btn-primary">
-                    <Link to="/prov-gratis" onClick={() => setIsOpen(false)}>Prøv gratis</Link>
+                    <Link to="/registrer" onClick={() => setIsOpen(false)}>Prøv gratis</Link>
                   </Button>
                 </div>
               </div>
