@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
+import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 import {
   trialRequests,
@@ -152,15 +153,11 @@ app.get('/api/registrer/verify/:token', (req, res) => {
     res.status(404).json({ ok: false, reason: 'not-found' });
     return;
   }
-  if (!row.verified_at) {
-    trialRequests.markVerified(row.id);
-  }
-  res.json({
-    ok: true,
-    churchName: row.church_name,
-    slug: row.slug,
-    alreadyVerified: !!row.verified_at,
-  });
+
+  const erForstegang = !row.verified_at;
+  if (erForstegang) trialRequests.markVerified(row.id);
+
+  res.json({ ok: true, churchName: row.church_name, slug: row.slug, alreadyVerified: !erForstegang });
 });
 
 app.post('/api/submit/contact', (req, res) => {

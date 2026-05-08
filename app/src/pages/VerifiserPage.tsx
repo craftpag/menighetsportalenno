@@ -9,12 +9,13 @@ interface VerifyResponse {
   churchName?: string;
   slug?: string;
   alreadyVerified?: boolean;
+  provisioned?: boolean;
   reason?: string;
 }
 
 type State =
   | { kind: 'loading' }
-  | { kind: 'success'; churchName: string; slug: string; alreadyVerified: boolean }
+  | { kind: 'success'; churchName: string; slug: string; alreadyVerified: boolean; provisioned: boolean }
   | { kind: 'error'; message: string };
 
 export function VerifiserPage() {
@@ -42,6 +43,7 @@ export function VerifiserPage() {
             churchName: body.churchName,
             slug: body.slug,
             alreadyVerified: !!body.alreadyVerified,
+            provisioned: !!body.provisioned,
           });
         } else {
           setState({
@@ -95,13 +97,28 @@ export function VerifiserPage() {
               <p className="text-lg text-[#4A4A4A] mb-2">
                 <strong>{state.churchName}</strong> er klar for oppsett.
               </p>
-              <p className="text-[#636363]">
-                Vi gjør klar{' '}
-                <code className="px-1.5 py-0.5 bg-white rounded border border-[#E5E2DD] text-sm">
-                  {state.slug}.menighetsportalen.no
-                </code>{' '}
-                og kontakter deg innen 24 timer.
-              </p>
+              {state.provisioned ? (
+                <>
+                  <p className="text-[#636363] mb-6">
+                    Vi har sendt en e-post med oppsettslenke til deg. Klikk på lenken for å komme i gang.
+                  </p>
+                  <p className="text-sm text-[#888]">
+                    Nettstedet ditt vil bli tilgjengelig på{' '}
+                    <code className="px-1.5 py-0.5 bg-white rounded border border-[#E5E2DD]">
+                      {state.slug}.menighetsportalen.no
+                    </code>{' '}
+                    etter oppsettet.
+                  </p>
+                </>
+              ) : (
+                <p className="text-[#636363]">
+                  Vi gjør klar{' '}
+                  <code className="px-1.5 py-0.5 bg-white rounded border border-[#E5E2DD] text-sm">
+                    {state.slug}.menighetsportalen.no
+                  </code>{' '}
+                  og kontakter deg innen 24 timer.
+                </p>
+              )}
             </>
           )}
 
